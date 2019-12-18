@@ -13,17 +13,24 @@ import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class InteractiveQuery {
 
+    private static final Logger LOGGER = Logger.getLogger(InteractiveQuery.class);
+
     @ConfigProperty(name="quarkus.http.host")
     String host;
+
+    @ConfigProperty(name="quarkus.http.port")
+    String port;
 
     @Inject
     KafkaStreams kafkaStreams;
 
     public List<String> getAll() {
+        LOGGER.info("***HOST:PORT*** " + host + ":" + port);
         List<String> all = new ArrayList<>();
         
         KeyValueIterator<String, String> range = getStore().all();
