@@ -49,6 +49,13 @@ Simple demo project for testing some APIs in combination with Quarkus.
 
 ## Deploy to OpenShift
 
+- Start Minishift
+
+    ```bash
+    minishift start
+    eval $(minishift oc-env)
+    ```
+
 - Build native image inside docker:
 
     ```bash
