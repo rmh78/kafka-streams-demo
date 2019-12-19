@@ -20,7 +20,7 @@ public class InteractiveQuery {
 
     private static final Logger LOGGER = Logger.getLogger(InteractiveQuery.class);
 
-    @ConfigProperty(name="quarkus.http.host")
+    @ConfigProperty(name="pod.ip")
     String host;
 
     @ConfigProperty(name="quarkus.http.port")
@@ -30,14 +30,24 @@ public class InteractiveQuery {
     KafkaStreams kafkaStreams;
 
     public List<String> getAll() {
-        LOGGER.info("***HOST:PORT*** " + host + ":" + port);
+
+        // log host-infos for inter-pod REST calls
+        LOGGER.info("*** ME *** HOST:PORT *** " + host + ":" + port);
+        kafkaStreams.allMetadata()
+            .stream()
+            .forEach(x -> {
+                LOGGER.info("*** ALL *** HOST:PORT *** " + x.host() + ":" + x.port());
+            });
+
         List<String> all = new ArrayList<>();
-        
         KeyValueIterator<String, String> range = getStore().all();
         while (range.hasNext()) {
           KeyValue<String, String> next = range.next();
           all.add(next.value);
         }
+
+        // missing code for inter-pod REST calls (removed for simplicity)
+        // ...
 
         return all;
     }

@@ -1,13 +1,18 @@
-GET http://localhost:8080/health HTTP/1.1
+#@host=localhost:8080
+@host=kafka-streams-demo-myproject.192.168.64.2.nip.io
 
 ###
 
-GET http://localhost:8080/hello/all HTTP/1.1
+GET http://{{host}}/health HTTP/1.1
 
 ###
 
-POST http://localhost:8080/hello HTTP/1.1
+GET http://{{host}}/hello/all HTTP/1.1
+
+###
+
+POST http://{{host}}/hello HTTP/1.1
 Content-Type: text/plain
 
-abc3
+xyz
 
